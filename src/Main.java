@@ -28,8 +28,8 @@ public class Main {
 
         System.out.println(table.render());
     }
-    static List<Person> readPersonListFromfile() {
-        try (ObjectInputStream objectIn = new ObjectInputStream(new BufferedInputStream(new FileInputStream("persondata.txt")));){
+    static List<Object> readPersonListFromfile() {
+        try (ObjectInputStream objectIn = new ObjectInputStream(new BufferedInputStream(new FileInputStream("persondata.txt")))){
 
             // if (objectIn.readObject() instanceof Person) {
             // System.out.println(" This object is a Person type !");
@@ -37,13 +37,13 @@ public class Main {
             // // personReadFromFile.showPersonInfo();
             // }
 
-            List<Person> allPersonData = new ArrayList<>();
             Object object = objectIn.readObject();
+            List<Object> allPersonData = new ArrayList<>();
             if (object instanceof List) {
                 List list = (List) object;
                 for (Object obj : list) {
                     if (obj instanceof Person) {
-                        allPersonData.add((Person) obj);
+                        allPersonData.add(obj);
                     }
                 }
             }
@@ -285,6 +285,7 @@ public class Main {
         try{
             if (option.equalsIgnoreCase("l")) {
                 System.out.println("You choose display Option!!");
+
             } else {
 
                 throw new IllegalStateException("Unexpected value: " + option.equalsIgnoreCase(option));
@@ -298,20 +299,20 @@ public class Main {
         // checking
 
          // read data form file
-//        List<Person> personFromFile = readPersonListFromfile();
+//        List<Object> personFromFile = readPersonListFromfile();
 //        assert personFromFile != null;
-//        for (Person person : personFromFile) {
+//        for (Object person : personFromFile) {
 ////            System.out.println(personFromFile);
-////            showPersonInfo(personFromFile);
+//            showPersonInfo(personFromFile);
 //            System.out.println("----------------------------------");
 //        }
 
         // read data normal
+
         try (BufferedReader br = new BufferedReader(new FileReader("persondata.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
-                System.out.println(line);
-
+                showPersonInfo(personList);
             }
         } catch (IOException e) {
             e.printStackTrace();
